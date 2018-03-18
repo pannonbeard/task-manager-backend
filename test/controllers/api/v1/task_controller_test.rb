@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 module Api
@@ -50,6 +51,38 @@ module Api
             }
           }
         end
+        assert_response :unprocessable_entity
+        json = JSON.parse(@response.body)
+        assert json['errors'].present?
+      end
+
+      test 'should update a task' do
+        @task = tasks(:one)
+        old_task_title = @task.title
+        patch api_v1_task_path(@task), params: {
+          task: {
+            title: 'hello boys',
+            description: 'blah blah',
+            priority: 2
+          }
+        }
+        @task.reload
+        assert old_task_title != @task.title
+        assert_response :ok
+      end
+
+      test 'should fail to update a task' do
+        @task = tasks(:one)
+        old_task_title = @task.title
+        patch api_v1_task_path(@task), params: {
+          task: {
+            title: '',
+            description: 'blah blah',
+            priority: 2
+          }
+        }
+        @task.reload
+        assert_not old_task_title != @task.title
         assert_response :unprocessable_entity
         json = JSON.parse(@response.body)
         assert json['errors'].present?
