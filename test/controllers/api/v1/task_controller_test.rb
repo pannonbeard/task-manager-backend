@@ -11,6 +11,49 @@ module Api
         assert_equal Task.all.count, json['tasks'].count
         assert_response :success
       end
+
+      test 'should create task' do
+        assert_difference('Task.count') do
+          post api_v1_tasks_path, params: {
+            task: {
+              title: 'This',
+              description: 'Oh noes',
+              priority: 2
+            }
+          }
+        end
+        assert_response :ok
+      end
+
+      test 'should reject task without title' do
+        assert_no_difference('Task.count') do
+          post api_v1_tasks_path, params: {
+            task: {
+              title: '',
+              description: 'Oh noes',
+              priority: 2
+            }
+          }
+        end
+        assert_response :unprocessable_entity
+        json = JSON.parse(@response.body)
+        assert json['errors'].present?
+      end
+
+      test 'should reject task without description' do
+        assert_no_difference('Task.count') do
+          post api_v1_tasks_path, params: {
+            task: {
+              title: 'hello boys',
+              description: '',
+              priority: 2
+            }
+          }
+        end
+        assert_response :unprocessable_entity
+        json = JSON.parse(@response.body)
+        assert json['errors'].present?
+      end
     end
   end
 end
