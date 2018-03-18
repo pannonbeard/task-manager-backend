@@ -29,7 +29,7 @@ module TaskKeeperBackend
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*' # could add 'https://thing.herku.com', 'https://otherthing.herku.com'
+        origins 'localhost:3000' # could add 'https://thing.herku.com', 'https://otherthing.herku.com'
         resource '*', headers: :any, methods: %i[get post options]
       end
 
