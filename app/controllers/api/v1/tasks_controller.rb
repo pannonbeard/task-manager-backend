@@ -18,6 +18,12 @@ module Api
         process_task(@task.update(task_params))
       end
 
+      def destroy
+        @task = Task.find(params[:id])
+        @task.destroy
+        render json: { result: 'Task Removed' }, status: :ok
+      end
+
       private
 
       def task_params

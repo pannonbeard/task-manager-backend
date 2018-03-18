@@ -87,6 +87,14 @@ module Api
         json = JSON.parse(@response.body)
         assert json['errors'].present?
       end
+
+      test 'should delete a task' do
+        @task = tasks(:one)
+        assert_difference('Task.count', -1, 'should remove task') do
+          delete api_v1_task_path(@task)
+        end
+        assert_response :ok
+      end
     end
   end
 end
