@@ -26,6 +26,18 @@ module TaskKeeperBackend
     # -- all .rb files in that directory are automatically loaded.
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*' # could add 'https://thing.herku.com', 'https://otherthing.herku.com'
+        resource '*', headers: :any, methods: %i[get post options]
+      end
+
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: :get
+      end
+    end
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
