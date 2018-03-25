@@ -14,7 +14,7 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
-config.middleware.insert_before 0, Rack::Cors do
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'localhost:3000' if Rails.env.development?
     origins 'https://task-manager-staging.herokuapp.com/' if Rails.env.staging?
