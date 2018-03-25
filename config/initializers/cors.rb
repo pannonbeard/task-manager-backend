@@ -16,12 +16,13 @@
 # end
 config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://task-manager-staging.herokuapp.com/' # could add 'https://thing.herku.com', 'https://otherthing.herku.com'
+    origins 'localhost:3000' if Rails.env.development?
+    origins 'https://task-manager-staging.herokuapp.com/' if Rails.env.staging?
     resource '*', headers: :any, methods: %i[get post options], credentials: true
   end
 
   allow do
-    origins '*'
+    origins 'https://task-manager-staging.herokuapp.com/'
     resource '*', headers: :any, methods: :get
   end
 end
