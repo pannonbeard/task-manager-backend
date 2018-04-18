@@ -18,7 +18,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'localhost:3000' if Rails.env.development?
     origins 'https://task-manager-staging.herokuapp.com' if Rails.env.production?
-    resource '*', headers: :any, methods: %i[get post options], credentials: true
+    resource '*', headers: :any, methods: %i[get post options delete], credentials: true
   end
 
   allow do
